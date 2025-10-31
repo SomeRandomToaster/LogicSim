@@ -1,7 +1,7 @@
 #pragma once
-#include <cstdint>
+#include <Circuits/Core/Port.h>
 
-#include "Port.h"
+#include <cstdint>
 
 class Component
 {

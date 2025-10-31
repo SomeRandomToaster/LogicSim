@@ -1,5 +1,5 @@
 #pragma once
-#include "LogicGate.h"
+#include <Circuits/Modules/LogicGate.h>
 
 class ConstantZero : public LogicGate
 {

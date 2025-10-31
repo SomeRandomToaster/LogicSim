@@ -1,5 +1,5 @@
 #pragma once
-#include "Element.h"
+#include <Circuits/Core/Element.h>
 
 #include <exception>
 #include <iostream>

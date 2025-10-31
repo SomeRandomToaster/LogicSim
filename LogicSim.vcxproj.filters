@@ -18,33 +18,33 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Circuits\Circuit.cpp">
+    <ClCompile Include="src\Circuits\Core\Circuit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Circuits\BinaryLogic.h">
+    <ClInclude Include="src\Circuits\Modules\BinaryLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\Circuit.h">
+    <ClInclude Include="src\Circuits\Core\Circuit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\Connector.h">
+    <ClInclude Include="src\Circuits\Core\Connector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\Element.h">
+    <ClInclude Include="src\Circuits\Core\Element.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\Input.h">
+    <ClInclude Include="src\Circuits\IO\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\LogicGate.h">
+    <ClInclude Include="src\Circuits\Modules\LogicGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\Output.h">
+    <ClInclude Include="src\Circuits\IO\Output.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Circuits\Port.h">
+    <ClInclude Include="src\Circuits\Core\Port.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Circuits.h">
