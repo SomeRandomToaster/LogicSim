@@ -4,26 +4,34 @@
 
 class MyCircuit : public RootCircuit
 {
-	ConsoleBitInput in1;
-	ConstantBitInput in2;
-	ConsoleBitOutput out1;
 	NandGate nand;
-	Connector c1, c2, c3;
+	std::vector<Connector*> c;
 
 
 public:
 	MyCircuit()
-		:	RootCircuit({ &in1, &in2 }, { &out1 }),
-			
-			in1("IN1"),
-			in2(1),
-			out1("OUT1"),
-			
-			c1(&in1, 0, &nand, 0),
-			c2(&in2, 0, &nand, 1),
-			c3(&nand, 0, &out1, 0)
+		: RootCircuit(
+			{
+				new ConsoleBitInput("IN1"),
+				new ConstantBitInput(1)
+			}, 
+			{
+				new ConsoleBitOutput("OUT1")
+			}
+		)
 	{
+		c = {
+			new Connector(inputs[0], 0, &nand, 0),
+			new Connector(inputs[1], 0, &nand, 1),
+			new Connector(&nand, 0, outputs[0], 0),
+		};
 		Init();
+	}
+
+	~MyCircuit() {
+		for (unsigned i = 0; i < c.size(); i++) {
+			delete c[i];
+		}
 	}
 };
 

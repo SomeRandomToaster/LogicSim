@@ -8,17 +8,19 @@
 
 class RootCircuit
 {
-private:
+	std::vector<std::vector<Component*>> updateSequence;
+protected:
 	std::vector <Input*> inputs;
 	std::vector <Output*> outputs;
-
-	std::vector<std::vector<Component*>> updateSequence;
-private:
-	void SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem);
 public:
 	RootCircuit(const std::vector<Input*>& inputs, const std::vector<Output*>& outputs);
+	virtual ~RootCircuit();
+
 	void Init();
 	void Update();
+private:
+	void SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem);
+
 };
 
 

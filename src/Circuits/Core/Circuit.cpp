@@ -32,6 +32,18 @@ void RootCircuit::Update()
 }
 
 
+RootCircuit::~RootCircuit()
+{
+	for (unsigned i = 0; i < inputs.size(); i++) {
+		delete inputs[i];
+	}
+
+	for (unsigned i = 0; i < outputs.size(); i++) {
+		delete outputs[i];
+	}
+}
+
+
 void RootCircuit::SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem)
 {
 	if (curElem->GetType() == Element::Input) {
