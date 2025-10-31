@@ -2,8 +2,14 @@
 
 #include <algorithm>
 
-Circuit::Circuit(const std::vector<Input*>& inputs, const std::vector<Output*>& outputs)
+RootCircuit::RootCircuit(const std::vector<Input*>& inputs, const std::vector<Output*>& outputs)
 	: inputs(inputs), outputs(outputs), updateSequence(outputs.size())
+{
+	
+}
+
+
+void RootCircuit::Init()
 {
 	for (int i = 0; i < outputs.size(); i++) {
 		std::vector<Component*> currentPath;
@@ -12,7 +18,7 @@ Circuit::Circuit(const std::vector<Input*>& inputs, const std::vector<Output*>& 
 }
 
 
-void Circuit::Update()
+void RootCircuit::Update()
 {
 	for (int i = 0; i < inputs.size(); i++) {
 		inputs[i]->Update();
@@ -26,7 +32,7 @@ void Circuit::Update()
 }
 
 
-void Circuit::SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem)
+void RootCircuit::SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem)
 {
 	if (curElem->GetType() == Element::Input) {
 		return;

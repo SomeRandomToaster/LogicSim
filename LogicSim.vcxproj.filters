@@ -59,5 +59,11 @@
     <ClInclude Include="src\Circuits\IO\ConstantInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Circuits\IO\CircuitInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Circuits\IO\CircuitOutput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Circuits.h" />
+    <ClInclude Include="src\Circuits\IO\CircuitInput.h" />
+    <ClInclude Include="src\Circuits\IO\CircuitOutput.h" />
     <ClInclude Include="src\Circuits\IO\ConsoleInput.h" />
     <ClInclude Include="src\Circuits\IO\ConsoleOutput.h" />
     <ClInclude Include="src\Circuits\IO\ConstantInput.h" />
