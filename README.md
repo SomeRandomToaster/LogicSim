@@ -1,7 +1,7 @@
 # LogicSim
 Binary logic simulation program. Maybe it will be something better.
 
-#How it works
+# How it works
 
 ## Basic structure
 A circuit consists of components.
