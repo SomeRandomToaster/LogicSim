@@ -1,5 +1,8 @@
 #pragma once
 
-#include "Circuits/Connector.h"
-#include "Circuits/Circuit.h"
-#include "Circuits/BinaryLogic.h"
+//Core
+#include <Circuits/Core/Connector.h>
+#include <Circuits/Core/Circuit.h>
+
+//Modules
+#include <Circuits/Modules/BinaryLogic.h>

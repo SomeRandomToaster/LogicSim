@@ -80,19 +80,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Circuits\Circuit.cpp" />
+    <ClCompile Include="src\Circuits\Core\Circuit.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Circuits.h" />
-    <ClInclude Include="src\Circuits\BinaryLogic.h" />
-    <ClInclude Include="src\Circuits\Circuit.h" />
-    <ClInclude Include="src\Circuits\Connector.h" />
-    <ClInclude Include="src\Circuits\Element.h" />
-    <ClInclude Include="src\Circuits\Input.h" />
-    <ClInclude Include="src\Circuits\LogicGate.h" />
-    <ClInclude Include="src\Circuits\Output.h" />
-    <ClInclude Include="src\Circuits\Port.h" />
+    <ClInclude Include="src\Circuits\Modules\BinaryLogic.h" />
+    <ClInclude Include="src\Circuits\Core\Circuit.h" />
+    <ClInclude Include="src\Circuits\Core\Connector.h" />
+    <ClInclude Include="src\Circuits\Core\Element.h" />
+    <ClInclude Include="src\Circuits\IO\Input.h" />
+    <ClInclude Include="src\Circuits\Modules\LogicGate.h" />
+    <ClInclude Include="src\Circuits\IO\Output.h" />
+    <ClInclude Include="src\Circuits\Core\Port.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

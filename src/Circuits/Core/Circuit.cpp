@@ -1,4 +1,4 @@
-#include "Circuit.h"
+#include <Circuits/Core/Circuit.h>
 
 #include <algorithm>
 

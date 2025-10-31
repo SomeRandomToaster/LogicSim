@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Input.h"
-#include "Output.h"
-#include "Connector.h"
+#include <Circuits/IO/Input.h>
+#include <Circuits/IO/Output.h>
+#include <Circuits/Core/Connector.h>
 
 #include <vector>
 

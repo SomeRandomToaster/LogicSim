@@ -1,9 +1,9 @@
 #pragma once
-#define LOGIC_GATE_VALUE_COUNT(x) (1ull << x)
+#include <Circuits/Core/Element.h>
 
 #include <vector>
 
-#include "Element.h"
+#define LOGIC_GATE_VALUE_COUNT(x) (1ull << x)
 
 class LogicGate : public Element
 {
