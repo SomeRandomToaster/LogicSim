@@ -4,7 +4,8 @@
 
 int main()
 {
-	ConsoleBitInput in1("IN1"), in2("IN2");
+	ConsoleBitInput in1("IN1");
+	ConstantBitInput in2(1);
 	ConsoleBitOutput out1("OUT1");
 	NandGate nand;
 	Connector c1(&in1, 0, &nand, 0);

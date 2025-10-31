@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Circuits.h" />
+    <ClInclude Include="src\Circuits\IO\ConsoleInput.h" />
+    <ClInclude Include="src\Circuits\IO\ConsoleOutput.h" />
+    <ClInclude Include="src\Circuits\IO\ConstantInput.h" />
     <ClInclude Include="src\Circuits\Modules\BinaryLogic.h" />
     <ClInclude Include="src\Circuits\Core\Circuit.h" />
     <ClInclude Include="src\Circuits\Core\Connector.h" />

@@ -1,19 +1,6 @@
 #pragma once
 #include <Circuits/Modules/LogicGate.h>
 
-class ConstantZero : public LogicGate
-{
-public:
-	ConstantZero() : LogicGate(1, "00") { output.SetVal(false); }
-};
-
-
-class ConstantOne : public LogicGate
-{
-public:
-	ConstantOne() : LogicGate(1, "11") { output.SetVal(true); }
-};
-
 class NotGate : public LogicGate
 {
 public:

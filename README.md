@@ -11,7 +11,9 @@ Input ports are connected to output ports via connectors.
 An element can be an input, an output or a regular element.
 
 ## Input and output
-For now only a console input is available.
+Available input and output types:
+1. Console I/O
+2. Constant values (input only)
 
 ## Regular elements
 For now only basic binary logic gates are available.
