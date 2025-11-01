@@ -12,6 +12,7 @@ class RootCircuit
 protected:
 	std::vector <Input*> inputs;
 	std::vector <Output*> outputs;
+	std::vector <Connector*> connectors;
 public:
 	RootCircuit(const std::vector<Input*>& inputs, const std::vector<Output*>& outputs);
 	virtual ~RootCircuit();

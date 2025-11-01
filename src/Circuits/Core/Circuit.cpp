@@ -34,12 +34,16 @@ void RootCircuit::Update()
 
 RootCircuit::~RootCircuit()
 {
-	for (unsigned i = 0; i < inputs.size(); i++) {
+	for (size_t i = 0; i < inputs.size(); i++) {
 		delete inputs[i];
 	}
 
-	for (unsigned i = 0; i < outputs.size(); i++) {
+	for (size_t i = 0; i < outputs.size(); i++) {
 		delete outputs[i];
+	}
+
+	for (size_t i = 0; i < connectors.size(); i++) {
+		delete connectors[i];
 	}
 }
 

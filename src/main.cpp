@@ -5,7 +5,6 @@
 class MyCircuit : public RootCircuit
 {
 	NandGate nand;
-	std::vector<Connector*> c;
 
 
 public:
@@ -20,18 +19,12 @@ public:
 			}
 		)
 	{
-		c = {
+		connectors = {
 			new Connector(inputs[0], 0, &nand, 0),
 			new Connector(inputs[1], 0, &nand, 1),
 			new Connector(&nand, 0, outputs[0], 0),
 		};
 		Init();
-	}
-
-	~MyCircuit() {
-		for (unsigned i = 0; i < c.size(); i++) {
-			delete c[i];
-		}
 	}
 };
 
