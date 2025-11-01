@@ -23,3 +23,4 @@ For now only basic binary logic gates are available.
 A circuit has a set of input and outputs.
 Each circuit automatically handles update routines of components located between inputs and outputs.
 There are two types of circuits: root circuits and regular circuits. A regular circuit can have only I/O pins. A root circuit can have I/O of any type.
+A regular circuit is an element and can be used in other circuits.

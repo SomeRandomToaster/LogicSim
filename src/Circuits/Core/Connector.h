@@ -39,8 +39,8 @@ public:
 		else {
 			throw InvalidConnectorException();
 		}
-		toPort->AddConnectorPtr(this);
-		((Port*)fromPort)->AddConnectorPtr(this);
+		toPort->AddInConnectorPtr(this);
+		((Port*)fromPort)->AddOutConnectorPtr(this);
 	}
 	inline ComponentType GetComponentType() const override { return ComponentType::Connector; }
 

@@ -26,12 +26,22 @@ private:
 };
 
 
-class RegularCircuit : public RootCircuit
+class RegularCircuit : public RootCircuit, public Element
 {
 public:
 	RegularCircuit(const std::vector<CircuitInput*>& inputs, const std::vector<CircuitOutput*>& outputs)
 		: RootCircuit(std::vector<Input*>(inputs.begin(), inputs.end()), std::vector<Output*>(outputs.begin(), outputs.end())) {
 	}
+
+	virtual inline ElementType GetElementType() const { return ElementType::Circuit; }
+	virtual inline unsigned GetInputCount() const { return inputs.size(); }
+	virtual inline unsigned GetOutputCount() const { return outputs.size(); }
+	virtual inline void SetInputVal(unsigned idx, void* val) { inputs[idx]->SetInputVal(0, val); }
+	virtual inline const Port* GetOutput(unsigned idx) const { return outputs[idx]->GetOutput(0); }
+	virtual inline Port* GetInput(unsigned idx) const { return inputs[idx]->GetInput(0); }
+
+	virtual inline void Init() override { RootCircuit::Init(); }
+	virtual inline void Update() override { RootCircuit::Update(); }
 };
 
 

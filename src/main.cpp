@@ -2,22 +2,57 @@
 
 #include <iostream>
 
-class MyCircuit : public RootCircuit
+
+class ComplicatedXor : public RegularCircuit
 {
-	XorGate xor0;
+	NotGate not0, not1;
+	AndGate and0, and1;
+	OrGate or0;
+
+public:
+	ComplicatedXor()
+		: RegularCircuit(
+			{
+				new CircuitBitInput("IN1"),
+				new CircuitBitInput("IN2")
+			},
+			{
+				new CircuitBitOutput("OUT"),
+			}
+			)
+	{
+		connectors = {
+			new Connector(inputs[0], 0, &not0, 0),
+			new Connector(inputs[1], 0, &not1, 0),
+			new Connector(&not0, 0, &and0, 0),
+			new Connector(inputs[1], 0, &and0, 1),
+			new Connector(inputs[0], 0, &and1, 0),
+			new Connector(&not1, 0, &and1, 1),
+			new Connector(&and0, 0, &or0, 0),
+			new Connector(&and1, 0, &or0, 1),
+			new Connector(&or0, 0, outputs[0], 0),
+		};
+		Init();
+	}
+};
+
+
+class HalfAdder : public RegularCircuit
+{
+	ComplicatedXor xor0;
 	AndGate and0;
 
 
 public:
-	MyCircuit()
-		: RootCircuit(
+	HalfAdder()
+		: RegularCircuit(
 			{
-				new ConsoleBitInput("IN1"),
-				new ConsoleBitInput("IN2")
+				new CircuitBitInput("IN1"),
+				new CircuitBitInput("IN2")
 			}, 
 			{
-				new ConsoleBitOutput("SUM"),
-				new ConsoleBitOutput("CARRY"),
+				new CircuitBitOutput("SUM"),
+				new CircuitBitOutput("CARRY"),
 			}
 		)
 	{
@@ -34,12 +69,47 @@ public:
 };
 
 
+class MyCircuit : public RootCircuit {
+	HalfAdder adder1, adder2;
+public:
+	MyCircuit()
+		: RootCircuit(
+			{
+				new ConsoleBitInput("A"),
+				new ConsoleBitInput("B"),
+				new ConsoleBitInput("C"),
+				new ConsoleBitInput("D"),
+			},
+			{
+				new ConsoleBitOutput("S1"),
+				new ConsoleBitOutput("C1"),
+				new ConsoleBitOutput("S2"),
+				new ConsoleBitOutput("C2")
+			}
+			) 
+	{
+		connectors = {
+			new Connector(inputs[0], 0, &adder1, 0),
+			new Connector(inputs[1], 0, &adder1, 1),
+			new Connector(&adder1, 0, outputs[0], 0),
+			new Connector(&adder1, 1, outputs[1], 0),
+
+			new Connector(inputs[2], 0, &adder2, 0),
+			new Connector(inputs[3], 0, &adder2, 1),
+			new Connector(&adder2, 0, outputs[2], 0),
+			new Connector(&adder2, 1, outputs[3], 0),
+
+		};
+		Init();
+	}
+};
+
+
 int main()
 {
-	
-
 	MyCircuit circuit;
 	circuit.Update();
+	
 
 	return 0;
 }

@@ -12,9 +12,11 @@ RootCircuit::RootCircuit(const std::vector<Input*>& inputs, const std::vector<Ou
 
 void RootCircuit::Init()
 {
+
 	// Topological sort based on DFS
 	std::set<Component*> whiteNodes = GetCircuitComponents();
 	std::set<Component*> grayNodes, blackNodes;
+
 
 	while (!whiteNodes.empty()) {
 		TopoSortVisit(*whiteNodes.begin(), whiteNodes, grayNodes, blackNodes);
@@ -51,10 +53,10 @@ std::set<Component*> RootCircuit::GetCircuitComponents() const
 		
 		for (size_t j = 0; j < outputsCount; j++) {
 			const Port* outputPort = inputs[i]->GetOutput(j);
-			size_t connectorsCount = outputPort->GetConnectorsCount();
+			size_t connectorsCount = outputPort->GetOutConnectorsCount();
 			
 			for (size_t k = 0; k < connectorsCount; k++) {
-				nodesQueue.push(outputPort->GetConnectorPtr(k));
+				nodesQueue.push(outputPort->GetOutConnectorPtr(k));
 			}
 		}
 	}
@@ -73,10 +75,10 @@ std::set<Component*> RootCircuit::GetCircuitComponents() const
 
 			for (size_t j = 0; j < outputsCount; j++) { // add connector to the queue
 				const Port* outputPort = elem->GetOutput(j);
-				size_t connectorsCount = outputPort->GetConnectorsCount();
+				size_t connectorsCount = outputPort->GetOutConnectorsCount();
 
 				for (size_t k = 0; k < connectorsCount; k++) {
-					nodesQueue.push(outputPort->GetConnectorPtr(k));
+					nodesQueue.push(outputPort->GetOutConnectorPtr(k));
 				}
 			}
 		}
@@ -112,10 +114,10 @@ void RootCircuit::TopoSortVisit(Component* node, std::set<Component*>& whiteNode
 
 		for (size_t j = 0; j < outputsCount; j++) {
 			const Port* outputPort = elem->GetOutput(j);
-			size_t connectorsCount = outputPort->GetConnectorsCount();
+			size_t connectorsCount = outputPort->GetOutConnectorsCount();
 
 			for (size_t k = 0; k < connectorsCount; k++) {
-				TopoSortVisit(outputPort->GetConnectorPtr(k), whiteNodes, grayNodes, blackNodes);
+				TopoSortVisit(outputPort->GetOutConnectorPtr(k), whiteNodes, grayNodes, blackNodes);
 			}
 		}
 	}

@@ -24,7 +24,7 @@ class Element : public Component
 public:
 	enum class ElementType
 	{
-		Input, Output, LogicGate
+		Input, Output, LogicGate, Circuit
 	};
 
 	virtual void Init() {}
