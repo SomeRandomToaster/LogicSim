@@ -34,7 +34,7 @@ public:
 	virtual inline void SetInputVal(unsigned idx, void* val) override { inputs[idx].SetVal(*(bool *)val); }
 	virtual inline const BitPort* GetOutput(unsigned idx) const override { return &output; }
 	virtual inline BitPort* GetInput(unsigned idx) const override { return (BitPort*)&inputs[idx]; }
-	virtual inline ElementType GetType() const { return ElementType::LogicGate; }
+	virtual inline ElementType GetElementType() const override { return ElementType::LogicGate; }
 	
 	virtual void Update() override 
 	{

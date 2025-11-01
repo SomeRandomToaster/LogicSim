@@ -7,7 +7,7 @@
 class Output : public Element
 {
 public:
-	virtual inline ElementType GetType() const override { return ElementType::Output; }
+	virtual inline ElementType GetElementType() const override { return ElementType::Output; }
 	virtual inline unsigned GetInputCount() const { return 1; }
 };
 

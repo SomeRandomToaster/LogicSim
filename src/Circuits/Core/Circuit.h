@@ -5,10 +5,11 @@
 #include <Circuits/Core/Connector.h>
 
 #include <vector>
+#include <set>
 
 class RootCircuit
 {
-	std::vector<std::vector<Component*>> updateSequence;
+	std::vector<Component*> updateSequence;
 protected:
 	std::vector <Input*> inputs;
 	std::vector <Output*> outputs;
@@ -20,8 +21,8 @@ public:
 	void Init();
 	void Update();
 private:
-	void SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem);
-
+	std::set<Component*> GetCircuitComponents() const;
+	void TopoSortVisit(Component* node, std::set<Component*>& whiteNodes, std::set<Component*>& grayNodes, std::set<Component*>& blackNodes);
 };
 
 

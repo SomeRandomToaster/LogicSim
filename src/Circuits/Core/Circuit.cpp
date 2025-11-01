@@ -1,9 +1,10 @@
 #include <Circuits/Core/Circuit.h>
 
 #include <algorithm>
+#include <queue>
 
 RootCircuit::RootCircuit(const std::vector<Input*>& inputs, const std::vector<Output*>& outputs)
-	: inputs(inputs), outputs(outputs), updateSequence(outputs.size())
+	: inputs(inputs), outputs(outputs)
 {
 	
 }
@@ -11,24 +12,125 @@ RootCircuit::RootCircuit(const std::vector<Input*>& inputs, const std::vector<Ou
 
 void RootCircuit::Init()
 {
-	for (int i = 0; i < outputs.size(); i++) {
-		std::vector<Component*> currentPath;
-		SetUpdateSequence(currentPath, 0, i, outputs[i]);
+	// Topological sort based on DFS
+	std::set<Component*> whiteNodes = GetCircuitComponents();
+	std::set<Component*> grayNodes, blackNodes;
+
+	while (!whiteNodes.empty()) {
+		TopoSortVisit(*whiteNodes.begin(), whiteNodes, grayNodes, blackNodes);
 	}
+
+	std::reverse(updateSequence.begin(), updateSequence.end());
 }
 
 
 void RootCircuit::Update()
 {
-	for (int i = 0; i < inputs.size(); i++) {
-		inputs[i]->Update();
+	for (auto input : inputs) {
+		input->Update();
 	}
 
-	for (int i = 0; i < outputs.size(); i++) {
-		for (int j = updateSequence[i].size() - 1; j >= 0; j--) {
-			updateSequence[i][j]->Update();
+	for (auto c : updateSequence) {
+		c->Update();
+	}
+
+	for (auto output : outputs) {
+		output->Update();
+	}
+}
+
+
+std::set<Component*> RootCircuit::GetCircuitComponents() const
+{
+	// Basically just a BFS that stops at inputs and outputs
+	std::queue<Component*> nodesQueue;
+	std::set<Component*>visitedNodes;
+
+	for (size_t i = 0; i < inputs.size(); i++) { // filling initial queue with connectors that start in inputs
+		size_t outputsCount = inputs[i]->GetOutputCount();
+		
+		for (size_t j = 0; j < outputsCount; j++) {
+			const Port* outputPort = inputs[i]->GetOutput(j);
+			size_t connectorsCount = outputPort->GetConnectorsCount();
+			
+			for (size_t k = 0; k < connectorsCount; k++) {
+				nodesQueue.push(outputPort->GetConnectorPtr(k));
+			}
 		}
 	}
+
+	while (!nodesQueue.empty()) {
+		Component* curComponent = nodesQueue.front();
+		nodesQueue.pop();
+
+		if (visitedNodes.find(curComponent) != visitedNodes.cend()) { // already visited that node. Skipping.
+			continue;
+		}
+
+		if (curComponent->GetComponentType() == Component::ComponentType::Element) {
+			Element* elem = (Element*)curComponent;
+			size_t outputsCount = elem->GetOutputCount();
+
+			for (size_t j = 0; j < outputsCount; j++) { // add connector to the queue
+				const Port* outputPort = elem->GetOutput(j);
+				size_t connectorsCount = outputPort->GetConnectorsCount();
+
+				for (size_t k = 0; k < connectorsCount; k++) {
+					nodesQueue.push(outputPort->GetConnectorPtr(k));
+				}
+			}
+		}
+		else {
+			Connector* conn = (Connector*)curComponent;
+			Element* destElem = conn->GetDestElement();
+			Element::ElementType elemType = destElem->GetElementType();
+			if (elemType != Element::ElementType::Input && elemType != Element::ElementType::Output) {
+				nodesQueue.push(destElem);
+			}
+		}
+		visitedNodes.insert(curComponent);
+	}
+
+	return visitedNodes;
+}
+
+
+void RootCircuit::TopoSortVisit(Component* node, std::set<Component*>& whiteNodes, std::set<Component*>& grayNodes, std::set<Component*>& blackNodes) {
+	if (blackNodes.find(node) != blackNodes.cend()) {
+		return;
+	}
+	if (grayNodes.find(node) != grayNodes.cend()) {
+		throw CircuitCycleException();
+	}
+
+	whiteNodes.erase(node);
+	grayNodes.insert(node);
+
+	if (node->GetComponentType() == Component::ComponentType::Element) {
+		Element* elem = (Element*)node;
+		size_t outputsCount = elem->GetOutputCount();
+
+		for (size_t j = 0; j < outputsCount; j++) {
+			const Port* outputPort = elem->GetOutput(j);
+			size_t connectorsCount = outputPort->GetConnectorsCount();
+
+			for (size_t k = 0; k < connectorsCount; k++) {
+				TopoSortVisit(outputPort->GetConnectorPtr(k), whiteNodes, grayNodes, blackNodes);
+			}
+		}
+	}
+	else {
+		Connector* conn = (Connector*)node;
+		Element* destElem = conn->GetDestElement();
+		Element::ElementType elemType = destElem->GetElementType();
+		if (elemType != Element::ElementType::Input && elemType != Element::ElementType::Output) {
+			TopoSortVisit(destElem, whiteNodes, grayNodes, blackNodes);
+		}
+	}
+
+	grayNodes.erase(node);
+	blackNodes.insert(node);
+	updateSequence.push_back(node);
 }
 
 
@@ -45,31 +147,4 @@ RootCircuit::~RootCircuit()
 	for (size_t i = 0; i < connectors.size(); i++) {
 		delete connectors[i];
 	}
-}
-
-
-void RootCircuit::SetUpdateSequence(std::vector<Component*>& path, unsigned offset, unsigned idx, Element* curElem)
-{
-	if (curElem->GetType() == Element::Input) {
-		return;
-	}
-
-	updateSequence[idx].push_back(curElem);
-	path.push_back(curElem);
-
-	unsigned inputCount = curElem->GetInputCount();
-	for (int i = 0; i < inputCount; i++) {
-		unsigned connCount = curElem->GetInput(i)->GetConnectorsCount();
-		for (int j = 0; j < connCount; j++) {
-			Connector* curConnector = curElem->GetInput(i)->GetConnectorPtr(j);
-			const Element* nextElem = curConnector->GetSrcElement();
-			if (std::find(path.begin(), path.end(), nextElem) != path.end()) {
-				throw CircuitCycleException();
-			}
-			updateSequence[idx].push_back(curConnector);
-			SetUpdateSequence(path, offset + 1, idx, (Element *)nextElem);
-		}
-	}
-
-	path.pop_back();
 }

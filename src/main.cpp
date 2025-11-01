@@ -4,7 +4,8 @@
 
 class MyCircuit : public RootCircuit
 {
-	NandGate nand;
+	XorGate xor0;
+	AndGate and0;
 
 
 public:
@@ -12,17 +13,21 @@ public:
 		: RootCircuit(
 			{
 				new ConsoleBitInput("IN1"),
-				new ConstantBitInput(1)
+				new ConsoleBitInput("IN2")
 			}, 
 			{
-				new ConsoleBitOutput("OUT1")
+				new ConsoleBitOutput("SUM"),
+				new ConsoleBitOutput("CARRY"),
 			}
 		)
 	{
 		connectors = {
-			new Connector(inputs[0], 0, &nand, 0),
-			new Connector(inputs[1], 0, &nand, 1),
-			new Connector(&nand, 0, outputs[0], 0),
+			new Connector(inputs[0], 0, &xor0, 0),
+			new Connector(inputs[0], 0, &and0, 0),
+			new Connector(inputs[1], 0, &xor0, 1),
+			new Connector(inputs[1], 0, &and0, 1),
+			new Connector(&xor0, 0, outputs[0], 0),
+			new Connector(&and0, 0, outputs[1], 0),
 		};
 		Init();
 	}
@@ -35,8 +40,6 @@ int main()
 
 	MyCircuit circuit;
 	circuit.Update();
-
-	//TODO: rewrite update sequence building algorithm to perform a normal topological sort
 
 	return 0;
 }

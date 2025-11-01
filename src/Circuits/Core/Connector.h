@@ -4,11 +4,6 @@
 #include <exception>
 #include <iostream>
 
-enum ConnectorMode
-{
-	BitToBit
-};
-
 
 class InvalidConnectorException : public std::exception
 {
@@ -18,11 +13,17 @@ class InvalidConnectorException : public std::exception
 
 class Connector : public Component
 {
+public:
+	enum class ConnectorType
+	{
+		BitToBit
+	};
+private:
 	Element* from;
 	Element* to;
 	const Port* fromPort;
 	Port* toPort;
-	ConnectorMode mode;
+	ConnectorType type;
 public:
 	Connector(Element* from, unsigned from_idx, Element* to, unsigned to_idx)
 	{
@@ -32,18 +33,21 @@ public:
 		toPort = to->GetInput(to_idx);
 
 
-		if (fromPort->GetType() == Bit && toPort->GetType() == Bit) {
-			mode = BitToBit;
+		if (fromPort->GetPortType() == PortType::Bit && toPort->GetPortType() == PortType::Bit) {
+			type = ConnectorType::BitToBit;
 		}
 		else {
 			throw InvalidConnectorException();
 		}
 		toPort->AddConnectorPtr(this);
+		((Port*)fromPort)->AddConnectorPtr(this);
 	}
+	inline ComponentType GetComponentType() const override { return ComponentType::Connector; }
+
 	inline void Update() {
-		switch (mode)
+		switch (type)
 		{
-		case BitToBit:
+		case ConnectorType::BitToBit:
 			bool bit;
 			bit = ((BitPort*)fromPort)->GetVal();
 			((BitPort*)toPort)->SetVal(bit);
