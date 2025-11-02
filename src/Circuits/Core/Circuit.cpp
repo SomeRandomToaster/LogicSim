@@ -47,7 +47,7 @@ void RootCircuit::Update()
 	}
 
 	for (auto c : updateSequence) {
-		c.ptr->Update();
+		c.ptr->Update(c.flags);
 	}
 
 	for (auto output : outputs) {

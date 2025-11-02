@@ -18,7 +18,7 @@ public:
 			{
 				new ConsoleBitOutput("OUT")
 			}
-			) 
+		)
 	{
 		connectors = {
 			new Connector(inputs[0], 0, &not0, 0),
