@@ -12,16 +12,12 @@ class Connector;
 class Port
 {
 private:
-	std::vector<Connector*> inConnectors;
-	std::vector<Connector*> outConnectors;
+	std::vector<Connector*> connectors;
 public:
 	virtual inline PortType GetPortType() const = 0;
-	virtual inline size_t GetInConnectorsCount() const { return inConnectors.size(); }
-	virtual inline size_t GetOutConnectorsCount() const { return outConnectors.size(); }
-	virtual inline Connector* GetInConnectorPtr(unsigned idx) const { return inConnectors[idx]; }
-	virtual inline Connector* GetOutConnectorPtr(unsigned idx) const { return outConnectors[idx]; }
-	virtual inline void AddInConnectorPtr(Connector* ptr) { inConnectors.push_back(ptr); }
-	virtual inline void AddOutConnectorPtr(Connector* ptr) { outConnectors.push_back(ptr); }
+	virtual inline size_t GetConnectorsCount() const { return connectors.size(); }
+	virtual inline Connector* GetConnectorPtr(unsigned idx) const { return connectors[idx]; }
+	virtual inline void AddConnectorPtr(Connector* ptr) { connectors.push_back(ptr); }
 };
 
 

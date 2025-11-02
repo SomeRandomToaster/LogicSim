@@ -53,10 +53,10 @@ std::set<Component*> RootCircuit::GetCircuitComponents() const
 		
 		for (size_t j = 0; j < outputsCount; j++) {
 			const Port* outputPort = inputs[i]->GetOutput(j);
-			size_t connectorsCount = outputPort->GetOutConnectorsCount();
+			size_t connectorsCount = outputPort->GetConnectorsCount();
 			
 			for (size_t k = 0; k < connectorsCount; k++) {
-				nodesQueue.push(outputPort->GetOutConnectorPtr(k));
+				nodesQueue.push(outputPort->GetConnectorPtr(k));
 			}
 		}
 	}
@@ -75,10 +75,10 @@ std::set<Component*> RootCircuit::GetCircuitComponents() const
 
 			for (size_t j = 0; j < outputsCount; j++) { // add connector to the queue
 				const Port* outputPort = elem->GetOutput(j);
-				size_t connectorsCount = outputPort->GetOutConnectorsCount();
+				size_t connectorsCount = outputPort->GetConnectorsCount();
 
 				for (size_t k = 0; k < connectorsCount; k++) {
-					nodesQueue.push(outputPort->GetOutConnectorPtr(k));
+					nodesQueue.push(outputPort->GetConnectorPtr(k));
 				}
 			}
 		}
@@ -114,10 +114,10 @@ void RootCircuit::TopoSortVisit(Component* node, std::set<Component*>& whiteNode
 
 		for (size_t j = 0; j < outputsCount; j++) {
 			const Port* outputPort = elem->GetOutput(j);
-			size_t connectorsCount = outputPort->GetOutConnectorsCount();
+			size_t connectorsCount = outputPort->GetConnectorsCount();
 
 			for (size_t k = 0; k < connectorsCount; k++) {
-				TopoSortVisit(outputPort->GetOutConnectorPtr(k), whiteNodes, grayNodes, blackNodes);
+				TopoSortVisit(outputPort->GetConnectorPtr(k), whiteNodes, grayNodes, blackNodes);
 			}
 		}
 	}
