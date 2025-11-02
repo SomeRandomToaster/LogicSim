@@ -6,33 +6,29 @@
 
 
 class MyCircuit : public RootCircuit {
-	FullAdder1 adder1, adder2;
+	BitSwitch sw0, sw1;
+	NotGate not0, not1;
 public:
 	MyCircuit()
 		: RootCircuit(
 			{
-				new ConsoleBitInput("A0"),
-				new ConsoleBitInput("A1"),
-				new ConsoleBitInput("B0"),
-				new ConsoleBitInput("B1"),
+				new ConsoleBitInput("IN1"),
+				new ConsoleBitInput("IN2")
 			},
 			{
-				new ConsoleBitOutput("S0"),
-				new ConsoleBitOutput("S1"),
-				new ConsoleBitOutput("C"),
+				new ConsoleBitOutput("OUT")
 			}
 			) 
 	{
 		connectors = {
-			new Connector(inputs[0], 0, &adder1, 1),
-			new Connector(inputs[2], 0, &adder1, 2),
-			new Connector(inputs[1], 0, &adder2, 1),
-			new Connector(inputs[3], 0, &adder2, 2),
-			new Connector(&adder1, 1, &adder2, 0),
-			new Connector(&adder1, 0, outputs[0], 0),
-			new Connector(&adder2, 0, outputs[1], 0),
-			new Connector(&adder2, 1, outputs[2], 0),
-
+			new Connector(inputs[0], 0, &not0, 0),
+			new Connector(inputs[1], 0, &not1, 0),
+			new Connector(inputs[0], 0, &sw0, 0),
+			new Connector(inputs[1], 0, &sw1, 0),
+			new Connector(&not1, 0, &sw0, 1),
+			new Connector(&not0, 0, &sw1, 1),
+			new Connector(&sw0, 0, outputs[0], 0),
+			new Connector(&sw1, 0, outputs[0], 0),
 		};
 		Init();
 	}

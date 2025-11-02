@@ -27,5 +27,5 @@ public:
 	virtual inline void SetInputVal(unsigned idx, void* val) override { io.SetVal(val); }
 	virtual inline Port* GetInput(unsigned idx) const override { return (Port*) &io; }
 
-	virtual void Update() {}
+	virtual void Update(unsigned flags = 0) {}
 };

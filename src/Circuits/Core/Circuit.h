@@ -9,7 +9,13 @@
 
 class RootCircuit
 {
-	std::vector<Component*> updateSequence;
+	struct UpdateInfo
+	{
+		Component* ptr;
+		unsigned flags = 0;
+	};
+
+	std::vector<UpdateInfo> updateSequence;
 protected:
 	std::vector <Input*> inputs;
 	std::vector <Output*> outputs;
@@ -41,7 +47,7 @@ public:
 	virtual inline Port* GetInput(unsigned idx) const { return inputs[idx]->GetInput(0); }
 
 	virtual inline void Init() override { RootCircuit::Init(); }
-	virtual inline void Update() override { RootCircuit::Update(); }
+	virtual inline void Update(unsigned flags = 0) override { RootCircuit::Update(); }
 };
 
 

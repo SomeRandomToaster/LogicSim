@@ -21,8 +21,22 @@ void RootCircuit::Init()
 	while (!whiteNodes.empty()) {
 		TopoSortVisit(*whiteNodes.begin(), whiteNodes, grayNodes, blackNodes);
 	}
-
 	std::reverse(updateSequence.begin(), updateSequence.end());
+	
+	// Set update flags for connectors
+	std::set<const Port*> ports;
+	for (int i = updateSequence.size() - 1; i >= 0; i--) {
+		if (updateSequence[i].ptr->GetComponentType() != Component::ComponentType::Connector) {
+			continue;
+		}
+
+		const Connector* conn = (const Connector*)updateSequence[i].ptr;
+		const Port* destPort = conn->GetDestPort();
+		if (ports.find(destPort) == ports.cend()) {
+			ports.insert(destPort);
+			updateSequence[i].flags |= Component::LastConnectorToPort;
+		}
+	}
 }
 
 
@@ -33,7 +47,7 @@ void RootCircuit::Update()
 	}
 
 	for (auto c : updateSequence) {
-		c->Update();
+		c.ptr->Update();
 	}
 
 	for (auto output : outputs) {
@@ -132,7 +146,7 @@ void RootCircuit::TopoSortVisit(Component* node, std::set<Component*>& whiteNode
 
 	grayNodes.erase(node);
 	blackNodes.insert(node);
-	updateSequence.push_back(node);
+	updateSequence.push_back({ node, 0 });
 }
 
 

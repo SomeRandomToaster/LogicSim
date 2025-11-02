@@ -99,6 +99,7 @@
     <ClInclude Include="src\Circuits\Modules\LogicGate.h" />
     <ClInclude Include="src\Circuits\IO\Output.h" />
     <ClInclude Include="src\Circuits\Core\Port.h" />
+    <ClInclude Include="src\Circuits\Modules\Switch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

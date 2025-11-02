@@ -12,3 +12,4 @@
 //Modules
 #include <Circuits/Modules/BinaryLogic.h>
 #include <Circuits/Modules/Arithmetic.h>
+#include <Circuits/Modules/Switch.h>

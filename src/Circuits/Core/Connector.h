@@ -44,13 +44,32 @@ public:
 	}
 	inline ComponentType GetComponentType() const override { return ComponentType::Connector; }
 
-	inline void Update() {
+	inline void Update(unsigned flags = 0) override {
 		switch (type)
 		{
 		case ConnectorType::BitToBit:
-			bool bit;
-			bit = ((BitPort*)fromPort)->GetVal();
-			((BitPort*)toPort)->SetVal(bit);
+			if (fromPort->IsActive()) {
+				bool bit;
+				bit = ((BitPort*)fromPort)->GetVal();
+				((BitPort*)toPort)->SetVal(bit);
+			}
+			else if (flags & LastConnectorToPort) {
+				// check if someone has updated this port
+				bool noUpdates = true;
+
+				size_t connectorsCount = toPort->GetConnectorsCount();
+				for (size_t i = 0; i < connectorsCount; i++) {
+					Connector* conn = toPort->GetConnectorPtr(i);
+					if (conn->GetSrcPort()->IsActive()) {
+						noUpdates = false;
+						break;
+					}
+				}
+				// if no one has, we must do it
+				if (noUpdates) {
+					((BitPort*)toPort)->SetVal(false);
+				}
+			}
 			break;
 		default:
 			break;
@@ -61,4 +80,6 @@ public:
 	}
 	inline const Element* GetSrcElement() { return from; }
 	inline Element* GetDestElement() { return to; }
+	inline const Port* GetSrcPort() const { return fromPort; }
+	inline const Port* GetDestPort() const { return toPort; }
 };

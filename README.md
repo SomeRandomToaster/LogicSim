@@ -17,7 +17,10 @@ Available input and output types:
 3. Circuit I/O pins
 
 ## Regular elements
-For now only basic binary logic gates are available.
+Available regular element types:
+1. Logic gates
+2. Switches
+3. Arithmetic
 
 ## Circuits
 A circuit has a set of input and outputs.

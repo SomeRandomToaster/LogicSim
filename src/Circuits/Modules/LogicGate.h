@@ -36,7 +36,7 @@ public:
 	virtual inline BitPort* GetInput(unsigned idx) const override { return (BitPort*)&inputs[idx]; }
 	virtual inline ElementType GetElementType() const override { return ElementType::LogicGate; }
 	
-	virtual void Update() override 
+	virtual void Update(unsigned flags = 0) override
 	{
 		unsigned idx = 0;
 		for (int i = inputCount - 1; i >= 0; i--) {

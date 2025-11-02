@@ -29,7 +29,7 @@ public:
 	ConsoleBitInput(const std::string& name, bool log = true)
 		: ConsoleInput(name, log) {}
 
-	virtual void Update() {
+	virtual void Update(unsigned flags = 0) {
 		if (log) {
 			std::cout << name << " (bit): ";
 		}

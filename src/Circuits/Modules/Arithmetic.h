@@ -37,7 +37,7 @@ public:
 };
 
 
-class FullAdder1 : public RegularCircuit
+class BitAdder : public RegularCircuit
 {
 	XorGate xor0, xor1;
 	AndGate and0, and1, and2;
@@ -45,7 +45,7 @@ class FullAdder1 : public RegularCircuit
 
 
 public:
-	FullAdder1()
+	BitAdder()
 		: RegularCircuit(
 			{
 				new CircuitBitInput("IN0"),

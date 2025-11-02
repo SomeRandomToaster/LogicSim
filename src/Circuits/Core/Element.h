@@ -10,11 +10,16 @@ public:
 	{
 		Element, Connector
 	};
+	enum UpdateFlags
+	{
+		None = 0,
+		LastConnectorToPort = 1
+	};
 
 	virtual ~Component() {}
 
 	virtual void Init() = 0;
-	virtual void Update() = 0;
+	virtual void Update(unsigned flags = 0) = 0;
 	virtual ComponentType GetComponentType() const = 0;
 };
 
@@ -24,11 +29,11 @@ class Element : public Component
 public:
 	enum class ElementType
 	{
-		Input, Output, LogicGate, Arithmetic, Circuit
+		Input, Output, LogicGate, Arithmetic, Switch, Circuit
 	};
 
 	virtual void Init() {}
-	virtual void Update() {}
+	virtual void Update(unsigned flags = 0) override {}
 	virtual inline ComponentType GetComponentType() const override { return ComponentType::Element; }
 
 	virtual inline ElementType GetElementType() const = 0;

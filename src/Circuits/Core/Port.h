@@ -13,8 +13,11 @@ class Port
 {
 private:
 	std::vector<Connector*> connectors;
+	bool active = true;
 public:
 	virtual inline PortType GetPortType() const = 0;
+	virtual inline bool IsActive() const { return active; }
+	virtual inline void SetActive(bool val) { active = val; }
 	virtual inline size_t GetConnectorsCount() const { return connectors.size(); }
 	virtual inline Connector* GetConnectorPtr(unsigned idx) const { return connectors[idx]; }
 	virtual inline void AddConnectorPtr(Connector* ptr) { connectors.push_back(ptr); }
@@ -24,7 +27,7 @@ public:
 class BitPort : public Port
 {
 private:
-	bool val = 0;
+	bool val = false;
 public:
 	inline bool GetVal() const { return val; }
 	inline void SetVal(bool newVal) { val = newVal; }
